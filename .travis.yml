@@ -23,3 +23,8 @@ before_install:
 install:
   - pip3 install django==$DJANGO --quiet
   - pip3 install psycopg2 --quiet
+  - pip3 install djangorestframework --quiet
+  - pip3 install django-cors-headers --quiet
+
+  script:
+  - python3 manage.py
