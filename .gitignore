@@ -1,8 +1,0 @@
-app1/__pycache__/
-app1/migration/
-backend/__pycache__/
-__pycache__/
-*.py[cod]
-*.pc
-*.pyc
-*.pyo
