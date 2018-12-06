@@ -3,7 +3,9 @@ from rest_framework import viewsets
 from .models import Product, User
 from .serializers import ProductSerializer, UserSerializer
 from rest_framework.decorators import api_view
+from django.views.decorators.csrf import csrf_exempt
 from rest_framework.response import Response
+from rest_framework import status
 
 #IMPORTER LES MODELS A TRAITER
 
@@ -15,13 +17,18 @@ class ProductView(viewsets.ModelViewSet):
     serializer_class = ProductSerializer
 
 
+@csrf_exempt
 @api_view(['POST'])
 def Inscription(request):
+    print("Inscription")
+    print(request.data)
     if request.method == "POST":
         serializer = UserSerializer(data=request.data)
+        print(serializer)
         if serializer.is_valid():
             #INSERT
             serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         #FAIL
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
