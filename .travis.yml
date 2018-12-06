@@ -1,0 +1,25 @@
+#   A basic travis.yml boilerplate for Django projects
+#
+#   The set-up assumes a postgreSQL database.
+#
+#   Replace the following variables in the code:
+# * your_project_settings
+# * your_github_username
+# * your_repo
+
+language: python
+
+python:
+  - 3.6.7
+
+services: postgresql
+
+env:
+  - DJANGO=2.1.4
+
+before_install:
+  - export PYTHONPATH=$HOME/builds/kastrati1/pfe-backend
+
+install:
+  - pip3 install django==$DJANGO --quiet
+  - pip3 install psycopg2 --quiet
