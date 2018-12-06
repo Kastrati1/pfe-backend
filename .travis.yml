@@ -18,4 +18,4 @@ install:
   - pip3 install django-cors-headers --quiet
 
 script:
-  - python3 manage.py
+  - python3 manage.py test
