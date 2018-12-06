@@ -16,6 +16,7 @@ install:
   - pip3 install psycopg2 --quiet
   - pip3 install djangorestframework --quiet
   - pip3 install django-cors-headers --quiet
+  - pip3 install django-heroku --quiet
 
 script:
-  - python3 manage.py
+  - python3 manage.py test
