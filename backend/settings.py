@@ -12,7 +12,7 @@ https://docs.djangoproject.com/en/2.1/ref/settings/
 
 import os
 import django_heroku
-
+import sys
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -86,16 +86,24 @@ WSGI_APPLICATION = 'backend.wsgi.application'
 #         'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
 #     }
 # }
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'rqfdpvzc',
-        'USER': 'rqfdpvzc',
-        'PASSWORD': 'GLKMysC8gS-SEu5mPevvFLfbQF3ip-nA',
-        'HOST': 'stampy.db.elephantsql.com',
-        'PORT': '5432',
+if 'test' in sys.argv:
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.sqlite3',
+            'NAME': 'mydatabase'
+        }
     }
-}
+else:
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.postgresql',
+            'NAME': 'rqfdpvzc',
+            'USER': 'rqfdpvzc',
+            'PASSWORD': 'GLKMysC8gS-SEu5mPevvFLfbQF3ip-nA',
+            'HOST': 'stampy.db.elephantsql.com',
+            'PORT': '5432',
+        },
+    }
 
 # Password validation
 # https://docs.djangoproject.com/en/2.1/ref/settings/#auth-password-validators
