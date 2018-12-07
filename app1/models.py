@@ -21,13 +21,14 @@ class Product(models.Model):
     description = models.CharField(max_length=100)
     stock = models.IntegerField(default=0)
     categorie_id = models.ForeignKey(
-        Categorie, on_delete=models.CASCADE, default=1)
+        Categorie, on_delete=models.CASCADE, default=1, blank=True)
 
 
 class Command(models.Model):
-    user_id = models.ForeignKey(User, on_delete=models.CASCADE, default=1)
+    user_id = models.ForeignKey(
+        User, on_delete=models.CASCADE, default=1, blank=True)
     product_id = models.ForeignKey(
-        Product, on_delete=models.CASCADE, default=1)
+        Product, on_delete=models.CASCADE, default=1, blank=True)
     quantity = models.IntegerField(default=0)
     name = models.CharField(max_length=10)
     description = models.CharField(max_length=40)
