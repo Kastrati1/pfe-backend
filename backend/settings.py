@@ -11,7 +11,6 @@ https://docs.djangoproject.com/en/2.1/ref/settings/
 """
 
 import os
-import django_heroku
 import sys
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
@@ -156,4 +155,9 @@ REST_FRAMEWORK = {
     )
 }
 CORS_ORIGIN_ALLOW_ALL = True
-django_heroku.settings(locals())
+try:
+    import django_heroku
+    django_heroku.settings(locals())
+except ImportError:
+    found=False
+

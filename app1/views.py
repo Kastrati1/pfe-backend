@@ -25,7 +25,7 @@ def Inscription(request):
         print(serializer)
         if serializer.is_valid():
             #INSERT
-            #serializer.save()
+            serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         #FAIL
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
