@@ -1,4 +1,5 @@
 from django.db import models
+from datetime import datetime
 
 # Create your models here.
 
@@ -32,3 +33,5 @@ class Command(models.Model):
     quantity = models.IntegerField(default=0)
     name = models.CharField(max_length=10)
     description = models.CharField(max_length=40)
+    product_price = models.FloatField(default=0)
+    command_date = models.DateTimeField(default=datetime.now, blank=True)
