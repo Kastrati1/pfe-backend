@@ -7,5 +7,6 @@ router.register('app1', views.ProductView)
 
 urlpatterns = [
     path('', include(router.urls)),
-    path('inscription', views.Inscription)
+    path('inscription', views.Inscription),
+    path('product', views.GetProducts)
 ]
