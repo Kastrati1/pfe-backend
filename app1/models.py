@@ -8,7 +8,7 @@ class User(models.Model):
     first_name = models.CharField(max_length=50)
     last_name = models.CharField(max_length=50)
     email = models.EmailField()
-    login = models.CharField(max_length=50)
+    username = models.CharField(max_length=50)
     password = models.CharField(max_length=50)
 
 

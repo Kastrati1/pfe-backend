@@ -152,12 +152,22 @@ REST_FRAMEWORK = {
     'DEFAULT_RENDERER_CLASSES': (
         'rest_framework.renderers.JSONRenderer',
         'rest_framework.renderers.BrowsableAPIRenderer',
-    )
+    ),
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework_jwt.authentication.JSONWebTokenAuthentication',
+        'rest_framework.authentication.SessionAuthentication',
+        'rest_framework.authentication.BasicAuthentication',
+    ),
 }
+
+# modify default jwt payload so it returns user data alongside the jwt
+JWT_AUTH = {
+    'JWT_RESPONSE_PAYLOAD_HANDLER': 'app1.utils.my_jwt_response_handler'
+}
+
 CORS_ORIGIN_ALLOW_ALL = True
 try:
     import django_heroku
     django_heroku.settings(locals())
 except ImportError:
-    found=False
-
+    found = False
