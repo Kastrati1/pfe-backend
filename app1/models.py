@@ -12,7 +12,7 @@ class User(models.Model):
     password = models.CharField(max_length=50)
 
 
-class Categorie(models.Model):
+class Category(models.Model):
     name = models.CharField(max_length=50)
 
 
@@ -22,7 +22,7 @@ class Product(models.Model):
     description = models.CharField(max_length=100)
     stock = models.IntegerField(default=0)
     categorie_id = models.ForeignKey(
-        Categorie, on_delete=models.CASCADE, default=1, blank=True)
+        Category, on_delete=models.CASCADE, default=1, blank=True)
 
 
 class Command(models.Model):

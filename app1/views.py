@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect
 from rest_framework import viewsets
-from .models import Product, User
-from .serializers import ProductSerializer, UserSerializer
+from .models import Product, User, Category
+from .serializers import ProductSerializer, UserSerializer, CategorySerializer
 from rest_framework.decorators import api_view
 from django.views.decorators.csrf import csrf_exempt
 from rest_framework.response import Response
@@ -41,3 +41,20 @@ def GetProducts(request):
         return Response(serializer.products, status=status.HTTP_200_OK)
         
     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+@csrf_exempt
+@api_view(['GET'])
+def GetProductsByCategory(request):
+    if request.method == "GET":
+        #to be changed
+        category = Category.objects.get(name='smartphone')
+        #category = 'smartphones'
+        id_category = category.values('id')
+        products = Product.objects.get(id_category=id_category)
+        for p in products:
+            print(p)
+        return Response(serializer.products, status=status.HTTP_200_OK)
+    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+
