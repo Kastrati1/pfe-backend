@@ -6,6 +6,7 @@ from rest_framework.decorators import api_view
 from django.views.decorators.csrf import csrf_exempt
 from rest_framework.response import Response
 from rest_framework import status
+from django.core import serializers
 
 #IMPORTER LES MODELS A TRAITER
 
@@ -35,10 +36,8 @@ def Inscription(request):
 @api_view(['GET'])
 def GetProducts(request):
     if request.method == "GET":
-        products = Product.objects.all()
-        for p in products:
-            print(p)
-        return Response(serializer.products, status=status.HTTP_200_OK)
+        products = serializers.serialize('json', Product.objects.all())
+        return Response(products, status=status.HTTP_200_OK)
         
     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
