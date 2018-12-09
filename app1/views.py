@@ -41,8 +41,8 @@ class UserList(APIView):
 @api_view(['GET'])
 def GetProducts(request):
     if request.method == "GET":
-        products = serializers.serialize('json', Product.objects.all())
-        return Response(products, status=status.HTTP_200_OK)
+        serializer = ProductSerializer(Product.objects.all(), many=True)
+        return JSONRenderer().render(serializer.data)
 
     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
@@ -60,3 +60,10 @@ def GetProductsByCategory(request):
             print(p)
         return Response(serializer.products, status=status.HTTP_200_OK)
     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+# returns all products
+
+class ProductsViewSet(viewsets.ModelViewSet):
+    queryset = Product.objects.all()
+    serializer_class = ProductSerializer
