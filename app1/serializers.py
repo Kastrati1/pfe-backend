@@ -6,7 +6,7 @@ from django.contrib.auth.models import User
 
 class CategorieSerializer(serializers.ModelSerializer):
     class Meta:
-        model = Categorie
+        model = Category
         fields = '__all__'
 
 
