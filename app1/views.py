@@ -65,5 +65,6 @@ def GetProductsByCategory(request):
 # returns all products
 
 class ProductsViewSet(viewsets.ModelViewSet):
+
     queryset = Product.objects.all()
     serializer_class = ProductSerializer
