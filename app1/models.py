@@ -1,9 +1,8 @@
 from django.db import models
 from datetime import datetime
 
-# Create your models here.
 
-
+# Please don't use this User class anywhere! will be deleted soon!
 class User(models.Model):
     first_name = models.CharField(max_length=50)
     last_name = models.CharField(max_length=50)

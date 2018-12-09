@@ -1,10 +1,9 @@
 from django.contrib import admin
-from .models import Product, User, Categorie, Command
+from .models import Product, User, Category, Command
 
 
 # Register your models here.
 
 admin.site.register(Product)
-admin.site.register(User)
-admin.site.register(Categorie)
+admin.site.register(Category)
 admin.site.register(Command)

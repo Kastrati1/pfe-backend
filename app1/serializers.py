@@ -1,10 +1,10 @@
 from rest_framework import serializers
-from .models import Product, Categorie, Command
+from .models import Product, Category, Command
 from rest_framework_jwt.settings import api_settings
 from django.contrib.auth.models import User
 
 
-class CategorieSerializer(serializers.ModelSerializer):
+class CategorySerializer(serializers.ModelSerializer):
     class Meta:
         model = Category
         fields = '__all__'
