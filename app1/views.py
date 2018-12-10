@@ -40,21 +40,26 @@ class UserList(APIView):
 @csrf_exempt
 @api_view(['GET'])
 def GetProductsByCategory(request):
-    if request.method == "GET":
-        # to be changed
-        category = Category.objects.get(name='smartphone')
-        #category = 'smartphones'
-        id_category = category.values('id')
-        products = Product.objects.get(id_category=id_category)
-        for p in products:
-            print(p)
-        return Response(serializer.products, status=status.HTTP_200_OK)
-    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    # to be changed
+    category = Category.objects.get(name='smartphone')
+    #category = 'smartphones'
+    id_category = category.values('id')
+    products = Product.objects.get(id_category=id_category)
+    for p in products:
+        print(p)
+    return Response(serializer.products, status=status.HTTP_200_OK)
 
+@csrf_exempt
+@api_view(['GET'])
+def GetAllCategories(request):
+    categories = serializers.serialize('json', Category.objects.all())
+    return Response(categories, status=status.HTTP_200_OK)
 
 # returns all products
+
 
 class ProductsViewSet(viewsets.ModelViewSet):
 
     queryset = Product.objects.all()
     serializer_class = ProductSerializer
+

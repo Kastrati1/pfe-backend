@@ -1,35 +1,60 @@
-from django.urls import reverse
-from rest_framework import status
-from rest_framework.test import APITestCase, APIRequestFactory
-from .models import User
+from rest_framework.test import RequestsClient
+from rest_framework.test import APITestCase
 
+url = 'http://localhost:8000/app1/'
 
-class UserTests(APITestCase):
+class UnitTests(APITestCase):
+    #############
+    #   User    #
+    #############
+    #POST - expected 201
+    def test_inscription_1(self):
+        data = {'first_name':'t','last_name':'t','username':'t','password':'t','email':'seb.pau@hotmail.com'}
+        client = RequestsClient()
+        response = client.post(url+'users/', data)
+        assert response.status_code == 201
 
-    def test_create_post_request(self):
+    def test_inscription_2(self):
+        data = {'first_name':'t','last_name':'t','username':'t','email':'seb.pau@hotmail.com'}
+        client = RequestsClient()
+        response = client.post(url+'users/', data)
+        assert response.status_code == 400
 
-        factory = APIRequestFactory()
-        request = factory.post('/users/', {
-            'first_name': 'k',
-            'last_name': 'xhakol',
-            'email': 'kxhakol@gmail.com',
-            'login': 'kxhakol',
-            'password': '111'}, format='json')
+    #GET - expected 405
+    def test_inscription_3(self):
+        client = RequestsClient()
+        response = client.get(url+'users/')
+        assert response.status_code == 405
 
-    def test_create_User(self):
+    #####################
+    #   ProductsByCat   #
+    #####################
+    #GET - expected 200
+    '''
+    def test_products_by_cat_1(self):
+        client = RequestsClient()
+        response = client.get(url+'productsByCat')
+        print("cat : ", response.status_code)
+        assert response.status_code == 200
+    '''
 
-        data = {'name': 'DabApps'}
-        response = self.client.post('/users/', data, format='json')
-        self.assertEqual(response.status_code, status.HTTP_404_NOT_FOUND)
-        #self.assertEqual(User.objects.count(), 1)
-        #self.assertEqual(User.objects.get().name, 'DabApps')
+    #POST - expected 405
+    def test_products_by_cat_2(self):
+        client = RequestsClient()
+        response = client.post(url+'productsByCat')
+        assert response.status_code == 405
 
-    def test_create_User1(self):
+    #########################
+    #   GetAllCategories    #
+    #########################
+    #GET - expected 200
+    def test_get_all_categories_1(self):
+        client = RequestsClient()
+        response = client.get(url+'allCategories')
+        assert response.status_code == 200
 
-        data = {'first_name': 'k',
-                'last_name': 'xhakol',
-                'email': 'kxhakol@gmail.com',
-                'login': 'kxhakol',
-                'password': '111'}
-        reponse = self.client.post('/users/', data, format='json')
-        self.assertEqual(reponse.status_code, status.HTTP_404_NOT_FOUND)
+    #POST - expected 405
+    def test_get_all_categories_2(self):
+        client = RequestsClient()
+        response = client.post(url+'allCategories')
+        assert response.status_code == 405
