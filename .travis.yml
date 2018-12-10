@@ -1,22 +1,19 @@
 language: python
-
 python:
-  - 3.6.7
-
+- 3.6.7
 services: postgresql
-
 env:
-  - DJANGO=2.1.4
-
+- DJANGO=2.1.4
 before_install:
-  - export PYTHONPATH=$HOME/builds/kastrati1/pfe-backend
-
+- export PYTHONPATH=$HOME/builds/kastrati1/pfe-backend
 install:
-  - pip3 install django==$DJANGO --quiet
-  - pip3 install psycopg2 --quiet
-  - pip3 install djangorestframework --quiet
-  - pip3 install django-cors-headers --quiet
-  - pip3 install djangorestframework-jwt --quiet
-
+- pip3 install django==$DJANGO --quiet
+- pip3 install psycopg2 --quiet
+- pip3 install djangorestframework --quiet
+- pip3 install django-cors-headers --quiet
+- pip3 install djangorestframework-jwt --quiet
 script:
-  - python3 manage.py test
+- python3 manage.py test
+deploy:
+  api_key:
+    secure: ZdeNzN8n/92p3mILHPBZQ14QIwGnbOwjaj74nmKeqE18vJsfcTKuz495p4Xl3vFmrh6LdxdjkW4zKGyAlbMS1EERORC7BDpV3Pj6VZ5f9cHl9rzZsJezXvJHXtWnEU39n5UhC5louoS6Ft2YOgpI4HDMldb4tkFM4FYdFk4y1VuCWo8gmBU9+I2T9dafu2jez14shm6Lq1A4ZjOOjIbwArEio7dd/3IlrxE5HDfQHEN63JyFXwDDowr62x77C01929bb3I076fehH7y8H1FOmnMmw9X5dKHNO7VSdls5GhtQo4vd9XcK9uB8d981UKE7st+tmLKQDfbO1DL8afkOEnlW9Y2BgUzj/7Z6ZEZiv50vaxTFNUUTLeYOx7Bnye966K+dOtDah+Wew4jV4v3mQK+XRA3jUZCs/jmuLc/AmtoVfV/oSiguz4WbfTHGCpJfMmV7G4u/r7KgPmwzJlGgFjOXAWZfb8b2QmiTSn6KymesBdxdbEXXNK6XF9rSEl7HX438HjbRt+wnDVRtR95H/ZP7Xw1LFqxk7LKNbqM1Kyuu6yhkZbm6FO7YqSUJfrzMLxve961W8+KImx3CKaQVMz5bAIRD08rApw1Yfj9Mk9ZhLIcm6+3j6aj8opzHRzpDWsdiUnH95ZQJJzRdWdgxSUh4x86JGi0einCvKFa1bDo=
