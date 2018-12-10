@@ -40,13 +40,14 @@ class UserList(APIView):
 @csrf_exempt
 @api_view(['GET'])
 def GetProductsByCategory(request):
-    # to be changed
-    category = Category.objects.get(name='smartphone')
+    category = CategorySerializer(data=request.data)
+    products = Product.objects.filter(categorie_id__name=category.name)
+    #category = Category.objects.get(name='smartphone')
     #category = 'smartphones'
-    id_category = category.values('id')
-    products = Product.objects.get(id_category=id_category)
-    for p in products:
-        print(p)
+    #id_category = category.values('id')
+    #products = Product.objects.get(id_category=id_category)
+    #for p in products:
+    #    print(p)
     return Response(serializer.products, status=status.HTTP_200_OK)
 
 @csrf_exempt
