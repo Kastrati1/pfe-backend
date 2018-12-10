@@ -39,16 +39,6 @@ class UserList(APIView):
 
 @csrf_exempt
 @api_view(['GET'])
-def GetProducts(request):
-    if request.method == "GET":
-        serializer = ProductSerializer(Product.objects.all(), many=True)
-        return JSONRenderer().render(serializer.data)
-
-    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-
-
-@csrf_exempt
-@api_view(['GET'])
 def GetProductsByCategory(request):
     if request.method == "GET":
         # to be changed
