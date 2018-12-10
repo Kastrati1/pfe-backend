@@ -9,6 +9,7 @@ from rest_framework.response import Response
 from rest_framework import status, permissions
 from rest_framework.views import APIView
 from django.core import serializers
+import json
 
 # IMPORTER LES MODELS A TRAITER
 
@@ -37,24 +38,24 @@ class UserList(APIView):
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
-@csrf_exempt
-@api_view(['GET'])
-def GetProductsByCategory(request):
-    category = CategorySerializer(data=request.data)
-    products = Product.objects.filter(categorie_id__name=category.name)
-    #category = Category.objects.get(name='smartphone')
-    #category = 'smartphones'
-    #id_category = category.values('id')
-    #products = Product.objects.get(id_category=id_category)
-    #for p in products:
-    #    print(p)
-    return Response(serializer.products, status=status.HTTP_200_OK)
+class ProductsByCat(APIView):
+
+    def post(self, request, format=None):
+        print(request.data["name"])
+        products = serializers.serialize('json', Product.objects.filter(categorie_id=request.data["name"]))
+        #print(products)
+        pro = str(products)
+        p = pro.replace('\'', '\"')
+        return Response(json.loads(p), status=status.HTTP_200_OK)
 
 @csrf_exempt
 @api_view(['GET'])
 def GetAllCategories(request):
     categories = serializers.serialize('json', Category.objects.all())
-    return Response(categories, status=status.HTTP_200_OK)
+    #PARSING PROBLEM
+    cat = str(categories)
+    c = cat.replace('\'', '\"')
+    return Response(json.loads(c), status=status.HTTP_200_OK)
 
 # returns all products
 
@@ -64,3 +65,8 @@ class ProductsViewSet(viewsets.ModelViewSet):
     queryset = Product.objects.all()
     serializer_class = ProductSerializer
 
+# class ProductsByCatViewSet(viewsets.ModelViewSet):
+
+#     def get(self):
+#         queryset = Product.objects.filter(categorie_id=self.request.data["name"])
+#         serializer_class = ProductSerializer
