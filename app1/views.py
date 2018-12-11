@@ -14,9 +14,6 @@ from rest_framework.views import APIView
 from django.core import serializers
 from django.conf import settings
 
-# from django.conf import settings  # new
-# IMPORTER LES MODELS A TRAITER
-
 # Create your views here.
 
 
@@ -79,18 +76,15 @@ class ProductsViewSet(viewsets.ModelViewSet):
 
 @api_view(['GET'])
 def GetUserProducts(request):
-    commands = Command.objects.get(user_id=request.user.id)
-    print("HEREEEEEEEEEEEEEEEEEE" + commands)
+    commands = Command.objects.filter(user_id=request.user.id)
     products = []
-    for commm in commands:
-        prod = Produit.objects.get(id = comm.product_id)
+    commands_list = list(commands)
+    for comm in commands_list:
+        prod = Product.objects.get(id = comm.product_id)
         products.append(prod)
     prodSer = serializers.serialize('json', products)
-    print(prodSer)
-    pro = str(prodSer)
-    print(pro)  
+    pro = str(prodSer)  
     p = pro.replace('\'', '\"')
-    print(p)
     return Response(json.loads(p), status=status.HTTP_200_OK)
 
 
