@@ -27,7 +27,6 @@ class Command(models.Model):
     quantity = models.IntegerField(default=0)
     product_price = models.FloatField(default=0)
     command_date = models.DateTimeField(default=datetime.now, blank=True)
-<<<<<<< HEAD
     objects = CommandManager()
 
     
@@ -40,5 +39,3 @@ class User(models.Model):
     username = models.CharField(max_length=50)
     password = models.CharField(max_length=50)
 '''
-=======
->>>>>>> f11fa4d02890dd3b752314e50e4f0ec8682acd1e
