@@ -3,8 +3,8 @@ import stripe
 import json
 from django.shortcuts import render, redirect
 from rest_framework import viewsets
-from .models import Product, Category
-from .serializers import ProductSerializer, CategorySerializer, UserSerializer, UserSerializerWithToken
+from .models import Product, Category, Command
+from .serializers import ProductSerializer, CategorySerializer, UserSerializer, UserSerializerWithToken, CommandSerializer
 from django.contrib.auth.models import User
 from rest_framework.decorators import api_view
 from django.views.decorators.csrf import csrf_exempt
@@ -36,6 +36,8 @@ class UserList(APIView):
 
     def post(self, request, format=None):
         serializer = UserSerializerWithToken(data=request.data)
+        print(serializer)
+        #print(serializer.data)
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
@@ -44,7 +46,7 @@ class UserList(APIView):
 
 class ProductsByCat(APIView):
 
-    def post(self, request, format=None):
+    def get(self, request, format=None):
         print(request.data["name"])
         products = serializers.serialize(
             'json', Product.objects.filter(categorie_id=request.data["name"]))
@@ -53,7 +55,7 @@ class ProductsByCat(APIView):
         p = pro.replace('\'', '\"')
         return Response(json.loads(p), status=status.HTTP_200_OK)
 
-
+'''
 @csrf_exempt
 @api_view(['GET'])
 def GetProductsByCategory(request):
@@ -66,7 +68,7 @@ def GetProductsByCategory(request):
     # for p in products:
     #    print(p)
     return Response(serializer.products, status=status.HTTP_200_OK)
-
+'''
 
 @csrf_exempt
 @api_view(['GET'])
@@ -108,6 +110,8 @@ class StripeView(APIView):
         #Pas besoin de tester val, stripe renvoi erreur en cas de refus
         
         # enregistrer dans la db si oui next, sinon errror
-        #TODO
-
-        return Response("serializer.products", status=status.HTTP_200_OK)
+        #TODO jwt, id_product, stripe token (Authorization)
+        product = Product.objects.filter(id = request.data["product_id"])
+        command = Command.objects.create_command(request.user.id,request.data["product_id"],request.data["quantity"], product[0].price)
+        command.save()
+        return Response(CommandSerializer(command).data, status=status.HTTP_201_CREATED)        
