@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'rest_framework',
     'corsheaders',
     'app1',
+    'stripe',
 ]
 
 MIDDLEWARE = [
@@ -171,3 +172,14 @@ try:
     django_heroku.settings(locals())
 except ImportError:
     found = False
+
+
+STRIPE_LIVE_PUBLIC_KEY = os.environ.get(
+    "STRIPE_LIVE_PUBLIC_KEY", "<your publishable key>")
+STRIPE_LIVE_SECRET_KEY = os.environ.get(
+    "STRIPE_LIVE_SECRET_KEY", "<your secret key>")
+STRIPE_TEST_PUBLIC_KEY = os.environ.get(
+    "STRIPE_TEST_PUBLIC_KEY", "pk_test_YLLasAftx4BAOY6OIaMRHPtl")
+STRIPE_TEST_SECRET_KEY = os.environ.get(
+    "STRIPE_TEST_SECRET_KEY", "sk_test_S4G6fMWHBXyFvdbbdedfRnPA")
+STRIPE_LIVE_MODE = False  # Change to True in production

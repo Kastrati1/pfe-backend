@@ -11,9 +11,10 @@ router.register('products', views.ProductsViewSet)
 urlpatterns = [
     path('', include(router.urls)),
     path('current_user/', views.Current_user),
-    path('current_user_products', views.GetUserProducts),
+    path('current_user_products/', views.GetUserProducts),
     path('users/', views.UserList.as_view()),
-    path('productsByCat', views.ProductsByCat.as_view()),
-    path('allCategories', views.GetAllCategories)
+    path('productsByCat', views.GetProductsByCategory),
+    path('allCategories', views.GetAllCategories),
+    path('pay', views.StripeView.as_view()),
 
 ]
