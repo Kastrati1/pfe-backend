@@ -19,7 +19,7 @@ import json
 # Get current user data and jwt
 @csrf_exempt
 @api_view(['GET'])
-def current_user(request):
+def Current_user(request):
     print(request.user)
     serializer = UserSerializer(request.user)
     return Response(serializer.data)
@@ -70,3 +70,22 @@ class ProductsViewSet(viewsets.ModelViewSet):
 #     def get(self):
 #         queryset = Product.objects.filter(categorie_id=self.request.data["name"])
 #         serializer_class = ProductSerializer
+
+@csrf_exempt
+@api_view(['GET'])
+def GetUserProducts(request):
+    #print(request.user);
+    #user = UserSerializer(request.user)
+    #print(user)
+    #products = Command.object.get(user_id=user.id)
+    #return Response(products, status=status.HTTP_200_OK)
+    print(request.user)
+    serializer = UserSerializer(request.user)@csrf_exempt
+
+@api_view(['GET'])
+def GetUserProducts(request):
+    print(request.user)
+    user = UserSerializer(request.user)
+    print(user)
+    products = Command.object.get(user_id=1)
+    return Response(products, status=status.HTTP_200_OK)
