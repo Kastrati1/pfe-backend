@@ -4,7 +4,11 @@ import json
 from django.shortcuts import render, redirect
 from rest_framework import viewsets
 from .models import Product, Category, Command
+<<<<<<< HEAD
 from .serializers import ProductSerializer, CategorySerializer, UserSerializer, UserSerializerWithToken, CommandSerializer
+=======
+from .serializers import CommandSerializer, ProductSerializer, CategorySerializer, UserSerializer, UserSerializerWithToken
+>>>>>>> f11fa4d02890dd3b752314e50e4f0ec8682acd1e
 from django.contrib.auth.models import User
 from rest_framework.decorators import api_view
 from django.views.decorators.csrf import csrf_exempt
@@ -14,16 +18,13 @@ from rest_framework.views import APIView
 from django.core import serializers
 from django.conf import settings
 
-# from django.conf import settings  # new
-# IMPORTER LES MODELS A TRAITER
-
 # Create your views here.
 
 
 # Get current user data and jwt
 @csrf_exempt
 @api_view(['GET'])
-def current_user(request):
+def Current_user(request):
     print(request.user)
     serializer = UserSerializer(request.user)
     return Response(serializer.data)
@@ -31,8 +32,6 @@ def current_user(request):
 
 # UserList : Responsible for inscription
 class UserList(APIView):
-
-    # permission_classes = (permissions.AllowAny,)
 
     def post(self, request, format=None):
         serializer = UserSerializerWithToken(data=request.data)
@@ -61,12 +60,6 @@ class ProductsByCat(APIView):
 def GetProductsByCategory(request):
     category = CategorySerializer(data=request.data)
     products = Product.objects.filter(categorie_id__name=category.name)
-    # category = Category.objects.get(name='smartphone')
-    # category = 'smartphones'
-    # id_category = category.values('id')
-    # products = Product.objects.get(id_category=id_category)
-    # for p in products:
-    #    print(p)
     return Response(serializer.products, status=status.HTTP_200_OK)
 '''
 
@@ -74,7 +67,6 @@ def GetProductsByCategory(request):
 @api_view(['GET'])
 def GetAllCategories(request):
     categories = serializers.serialize('json', Category.objects.all())
-    # PARSING PROBLEM
     cat = str(categories)
     c = cat.replace('\'', '\"')
     return Response(json.loads(c), status=status.HTTP_200_OK)
@@ -86,6 +78,20 @@ class ProductsViewSet(viewsets.ModelViewSet):
 
     queryset = Product.objects.all()
     serializer_class = ProductSerializer
+
+
+@api_view(['GET'])
+def GetUserProducts(request):
+    commands = Command.objects.filter(user_id=request.user.id)
+    products = []
+    commands_list = list(commands)
+    for comm in commands_list:
+        prod = Product.objects.get(id = comm.product_id)
+        products.append(prod)
+    prodSer = serializers.serialize('json', products)
+    pro = str(prodSer)  
+    p = pro.replace('\'', '\"')
+    return Response(json.loads(p), status=status.HTTP_200_OK)
 
 
 class StripeView(APIView):
