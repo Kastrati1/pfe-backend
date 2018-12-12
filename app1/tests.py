@@ -4,16 +4,14 @@ from rest_framework.test import APITestCase
 url = 'http://localhost:8000/app1/'
 
 class UnitTests(APITestCase):
-    #############
-    #   User    #
-    #############
+
     #POST - expected 201
     def test_inscription_1(self):
         data = {'first_name':'t','last_name':'t','username':'t','password':'t','email':'seb.pau@hotmail.com'}
         client = RequestsClient()
         response = client.post(url+'users/', data)
         assert response.status_code == 201
-
+        
     def test_inscription_2(self):
         data = {'first_name':'t','last_name':'t','username':'t','email':'seb.pau@hotmail.com'}
         client = RequestsClient()

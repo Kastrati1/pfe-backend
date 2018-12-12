@@ -31,7 +31,6 @@ class UserList(APIView):
     def post(self, request, format=None):
         serializer = UserSerializerWithToken(data=request.data)
         print(serializer)
-        #print(serializer.data)
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
@@ -44,19 +43,10 @@ class ProductsByCat(APIView):
         print(request.data["name"])
         products = serializers.serialize(
             'json', Product.objects.filter(categorie_id=request.data["name"]))
-        # print(products)
         pro = str(products)
         p = pro.replace('\'', '\"')
         return Response(json.loads(p), status=status.HTTP_200_OK)
 
-'''
-@csrf_exempt
-@api_view(['GET'])
-def GetProductsByCategory(request):
-    category = CategorySerializer(data=request.data)
-    products = Product.objects.filter(categorie_id__name=category.name)
-    return Response(serializer.products, status=status.HTTP_200_OK)
-'''
 
 @csrf_exempt
 @api_view(['GET'])
@@ -68,7 +58,6 @@ def GetAllCategories(request):
 
 
 class ProductsViewSet(viewsets.ModelViewSet):
-
     queryset = Product.objects.all()
     serializer_class = ProductSerializer
 
@@ -89,28 +78,23 @@ def GetUserProducts(request):
 
 class StripeView(APIView):
 
-    def post(self, request, format=None):  # new
+    def post(self, request, format=None):
         user_id = request.user.id
         if(user_id == None):
             return Response("Pas connecté", status=status.HTTP_406_NOT_ACCEPTABLE)
-        # 1 verif stock du produit si oui next, sinon error
         product = Product.objects.filter(id=request.data['product_id'])
         stock = product[0].stock
         if(stock < int(request.data["quantity"])):
             return Response("Plus en stock", status=status.HTTP_406_NOT_ACCEPTABLE)
         price = int(product[0].price) * int(request.data["quantity"])
-        
-        # faire payment par stripe si oui next, sinon error
+
         stripe.api_key = settings.STRIPE_TEST_SECRET_KEY
         print(settings.STRIPE_TEST_SECRET_KEY)
         val = stripe.Charge.create(
             amount=(price*100),
             currency="eur",
             source=request.data["token"])
-        #Pas besoin de tester val, stripe renvoi erreur en cas de refus
         product.update(stock=(int(stock)-int(request.data["quantity"])))
-        # enregistrer dans la db si oui next, sinon errror
-        #TODO jwt, id_product, stripe token (Authorization)
         command = Command.objects.create_command(request.user.id,request.data["product_id"],request.data["quantity"], product[0].price)
         command.save()
         return Response(CommandSerializer(command).data, status=status.HTTP_201_CREATED)        

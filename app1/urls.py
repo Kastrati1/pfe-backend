@@ -3,9 +3,6 @@ from . import views
 from rest_framework import routers
 
 router = routers.DefaultRouter()
-#router.register('app1', views.ProductView)
-# ProductView is a class in views
-
 router.register('products', views.ProductsViewSet)
 
 urlpatterns = [
