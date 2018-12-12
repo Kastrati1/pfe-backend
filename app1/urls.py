@@ -13,7 +13,7 @@ urlpatterns = [
     path('current_user/', views.Current_user),
     path('current_user_products/', views.GetUserProducts),
     path('users/', views.UserList.as_view()),
-    path('productsByCat', views.GetProductsByCategory),
+    path('productsByCat', views.ProductsByCat.as_view()),
     path('allCategories', views.GetAllCategories),
     path('pay', views.StripeView.as_view()),
 
