@@ -13,6 +13,7 @@ install:
   - pip3 install django-cors-headers --quiet
   - pip3 install djangorestframework-jwt --quiet
   - pip3 install stripe --quiet
+  - pip3 install dj-database-url
 
 script:
   - python3 manage.py test
