@@ -1,4 +1,3 @@
-
 import stripe
 import json
 from django.shortcuts import render, redirect
@@ -65,15 +64,13 @@ def GetAllCategories(request):
     c = cat.replace('\'', '\"')
     return Response(json.loads(c), status=status.HTTP_200_OK)
 
-# returns all products
-
 
 class ProductsViewSet(viewsets.ModelViewSet):
 
     queryset = Product.objects.all()
     serializer_class = ProductSerializer
 
-
+    
 @api_view(['GET'])
 def GetUserProducts(request):
     commands = Command.objects.filter(user_id=request.user.id)
