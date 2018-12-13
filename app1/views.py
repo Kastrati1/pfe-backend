@@ -39,9 +39,10 @@ class UserList(APIView):
 
 class ProductsByCat(APIView):
 
-    def post(self, request, format=None):
+    def get(self, request, format=None):
         print(request.data["name"])
-        products = serializers.serialize('json', Product.objects.filter(categorie_id= request.data["name"]))
+        products = serializers.serialize(
+            'json', Product.objects.filter(categorie_id=request.data["name"]))
         pro = str(products)
         p = pro.replace('\'', '\"')
         return Response(json.loads(p), status=status.HTTP_200_OK)
@@ -73,6 +74,15 @@ def GetUserProducts(request):
     pro = str(prodSer)  
     p = pro.replace('\'', '\"')
     return Response(json.loads(p), status=status.HTTP_200_OK)
+
+class GetProductByIdView(APIView):
+    def post(self, request, format=None):
+        id_product = request.data['product_id']
+        product = Product.objects.filter(id = id_product)
+        prodSer = serializers.serialize('json', product)
+        pro = str(prodSer)  
+        p = pro.replace('\'', '\"')
+        return Response(json.loads(p), status=status.HTTP_200_OK)
 
 
 class StripeView(APIView):
