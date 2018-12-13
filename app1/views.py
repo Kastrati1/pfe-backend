@@ -39,10 +39,9 @@ class UserList(APIView):
 
 class ProductsByCat(APIView):
 
-    def get(self, request, format=None):
+    def post(self, request, format=None):
         print(request.data["name"])
-        products = serializers.serialize(
-            'json', Product.objects.filter(categorie_id=request.data["name"]))
+        products = serializers.serialize('json', Product.objects.filter(categorie_id= request.data["name"]))
         pro = str(products)
         p = pro.replace('\'', '\"')
         return Response(json.loads(p), status=status.HTTP_200_OK)
