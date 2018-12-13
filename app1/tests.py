@@ -36,11 +36,11 @@ class UnitTests(APITestCase):
         assert response.status_code == 200
     '''
 
-    #POST - expected 405
+    #POST - expected 500 
     def test_products_by_cat_2(self):
         client = RequestsClient()
         response = client.post(url+'productsByCat')
-        assert response.status_code == 405
+        assert response.status_code == 500
 
     #########################
     #   GetAllCategories    #
